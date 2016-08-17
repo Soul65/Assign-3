@@ -13,6 +13,7 @@
 		<h2><c:out value="Assistant Coach: ${asstCoach}"/></h2>
 		<h2><c:out value="Manager: ${manager}"/></h2>
 		<h2><c:out value="Trainer: ${trainer}"/></h2>
+		<h2><c:out value="Next Game: ${NextGame}"/></h2>
 		<h2>Team Roster</h2>
 		<table border="1">
 			<tr>
@@ -24,9 +25,9 @@
 				<tr>
 					<td>
 						<c:url value="./DisplayPlayerInfo" var="rosterUrl">
-							<c:param name="rosterID" value="${roster.getRosterID()}"/>
+							<c:param name="rosterID" value="${roster.getRosterid()}"/>
 						</c:url>
-						<a href="<c:url value="${rosterUrl}"/>">${roster.getPlayer().getFullName()}</a>
+						<a href="<c:url value="${rosterUrl}"/>">${roster.getPlayerBean().getFullName()}</a>
 					</td>
 					<td><c:out value="${roster.getPosition()}"/></td>
 					<td><c:out value="${roster.getJersey()}"/></td>
@@ -46,17 +47,18 @@
 				<th>Overtime</th>
 				<th>ShootOut</th>
 			</tr>
-			<c:forEach items="${Games}" var="game">
+			<c:forEach items="${Games}" var="currGame">
 				<tr>
-					<td><c:out value="${game.getGameDate()}"/></td>
-					<td><c:out value="${game.getGameTime()}"/></td>
-					<td><c:out value="${game.getArena().getArenaName()}"/></td>
-					<td><c:out value="${game.getHome().getTeamName()}"/></td>
-					<td><c:out value="${game.getVisitor().getTeamName()}"/></td>
-					<td><c:out value="${game.getHomeScore()}"/></td>
-					<td><c:out value="${game.getVisitorScore()}"/></td>
-					<td><c:out value="${game.getOvertime()}"/></td>
-					<td><c:out value="${game.getShootOut()}"/></td>
+					<td><c:out value="${currGame.game.getGamedate()}"/></td>
+					<td><c:out value="${currGame.game.getGametime()}"/></td>
+					<td><c:out value="${currGame.game.getArenaBean().getArenaname()}"/></td>
+					<td><c:out value="${currGame.game.getHome().getTeamname()}"/></td>
+					<td><c:out value="${currGame.game.getVisitor().getTeamname()}"/></td>
+					<td><c:out value="${currGame.game.getHomescore()}"/></td>
+					<td><c:out value="${currGame.game.getVisitorscore()}"/></td>
+					<td><c:out value="${currGame.game.getOt()}"/></td>
+					<td><c:out value="${currGame.game.getSo()}"/></td>
+					<td><c:out value="${currGame.getScore()}"/></td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -71,11 +73,11 @@
 			</tr>
 			<c:forEach items="${ScheduledGames}" var="game">
 				<tr>
-					<td><c:out value="${game.getGameDate()}"/></td>
-					<td><c:out value="${game.getGameTime()}"/></td>
-					<td><c:out value="${game.getArena().getArenaName()}"/></td>
-					<td><c:out value="${game.getHome().getTeamName()}"/></td>
-					<td><c:out value="${game.getVisitor().getTeamName()}"/></td>
+					<td><c:out value="${game.getGamedate()}"/></td>
+					<td><c:out value="${game.getGametime()}"/></td>
+					<td><c:out value="${game.getArenaBean().getArenaname()}"/></td>
+					<td><c:out value="${game.getHome().getTeamname()}"/></td>
+					<td><c:out value="${game.getVisitor().getTeamname()}"/></td>
 				</tr>
 			</c:forEach>
 		</table>

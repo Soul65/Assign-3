@@ -1,152 +1,145 @@
-/* Name: Matt Allen & Robbie Syed
- * PROG3060
- * 07/07/16
- * Description: The Game bean
- * */
-import java.sql.Date;
-import java.sql.Time;
 
+
+import java.io.Serializable;
 import javax.persistence.*;
+import java.sql.Time;
+import java.util.Date;
 
-@Entity @Table(name = "GAME", schema = "GPAULLEY")
-public class Game 
-{
-	@Id 
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int gameID;
-	private int schedule;
-	private Date gameDate;
-	private Time gameTime;
+
+/**
+ * The persistent class for the GAME database table.
+ * 
+ */
+@Entity
+@NamedQuery(name="Game.findAll", query="SELECT g FROM Game g")
+public class Game implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	private int gameid;
+
+	@Temporal(TemporalType.DATE)
+	private Date gamedate;
+
+	private Time gametime;
+
+	private int homescore;
+
+	private String ot;
+
+	private String so;
+
+	private int visitorscore;
+
+	//bi-directional many-to-one association to Arena
 	@ManyToOne
-	@JoinColumn(name = "arena")
-	private Arena arena;
+	@JoinColumn(name="ARENA")
+	private Arena arenaBean;
+
+	//bi-directional many-to-one association to Schedule
 	@ManyToOne
-	@JoinColumn(name = "home")
-	private Team home;
+	@JoinColumn(name="SCHEDULE")
+	private Schedule scheduleBean;
+
+	//bi-directional many-to-one association to Team
 	@ManyToOne
-	@JoinColumn(name = "visitor")
+	@JoinColumn(name="VISITOR")
 	private Team visitor;
-	@Column(nullable = true)
-	private Integer homeScore;
-	@Column(nullable = true)
-	private Integer visitorScore;
-	@Column(name = "OT")
-	private String overtime;
-	@Column(name = "SO")
-	private String shootOut;
-		
-	public Game() 
-	{
-		//Default empty constructor
+
+	//bi-directional many-to-one association to Team
+	@ManyToOne
+	@JoinColumn(name="HOME")
+	private Team home;
+
+	public Game() {
 	}
 
-	// Getters and Setters for the Game Class
-	
-	public int getGameID() {
-		return gameID;
+	public int getGameid() {
+		return this.gameid;
 	}
 
-	public void setGameID(int gameID) {
-		this.gameID = gameID;
-	}
-	
-	public int getSchedule() 
-	{
-		return schedule;
+	public void setGameid(int gameid) {
+		this.gameid = gameid;
 	}
 
-	public void setSchedule(int schedule) 
-	{
-		this.schedule = schedule;
+	public Date getGamedate() {
+		return this.gamedate;
 	}
 
-	public Date getGameDate() 
-	{
-		return gameDate;
+	public void setGamedate(Date gamedate) {
+		this.gamedate = gamedate;
 	}
 
-	public void setGameDate(Date gameDate) 
-	{
-		this.gameDate = gameDate;
+	public Time getGametime() {
+		return this.gametime;
 	}
 
-	public Time getGameTime()
-	{
-		return gameTime;
+	public void setGametime(Time gametime) {
+		this.gametime = gametime;
 	}
 
-	public void setGameTime(Time gameTime) 
-	{
-		this.gameTime = gameTime;
+	public int getHomescore() {
+		return this.homescore;
 	}
 
-	public Arena getArena() 
-	{
-		return arena;
+	public void setHomescore(int homescore) {
+		this.homescore = homescore;
 	}
 
-	public void setArena(Arena arena) 
-	{
-		this.arena = arena;
+	public String getOt() {
+		return this.ot;
 	}
 
-	public Team getHome() 
-	{
-		return home;
+	public void setOt(String ot) {
+		this.ot = ot;
 	}
 
-	public void setHome(Team home) 
-	{
-		this.home = home;
+	public String getSo() {
+		return this.so;
 	}
 
-	public Team getVisitor() 
-	{
-		return visitor;
+	public void setSo(String so) {
+		this.so = so;
 	}
 
-	public void setVisitor(Team visitor) 
-	{
+	public int getVisitorscore() {
+		return this.visitorscore;
+	}
+
+	public void setVisitorscore(int visitorscore) {
+		this.visitorscore = visitorscore;
+	}
+
+	public Arena getArenaBean() {
+		return this.arenaBean;
+	}
+
+	public void setArenaBean(Arena arenaBean) {
+		this.arenaBean = arenaBean;
+	}
+
+	public Schedule getScheduleBean() {
+		return this.scheduleBean;
+	}
+
+	public void setScheduleBean(Schedule scheduleBean) {
+		this.scheduleBean = scheduleBean;
+	}
+
+	public Team getVisitor() {
+		return this.visitor;
+	}
+
+	public void setVisitor(Team visitor) {
 		this.visitor = visitor;
 	}
 
-	public Integer getHomeScore() 
-	{
-		return homeScore;
+	public Team getHome() {
+		return this.home;
 	}
 
-	public void setHomeScore(Integer homeScore) 
-	{
-		this.homeScore = homeScore;
+	public void setHome(Team home) {
+		this.home = home;
 	}
 
-	public Integer getVisitorScore() 
-	{
-		return visitorScore;
-	}
-
-	public void setVisitorScore(Integer visitorScore) 
-	{
-		this.visitorScore = visitorScore;
-	}
-
-	public String getOvertime() 
-	{
-		return overtime;
-	}
-
-	public void setOvertime(String overtime) 
-	{
-		this.overtime = overtime;
-	}
-
-	public String getShootOut() 
-	{
-		return shootOut;
-	}
-
-	public void setShootOut(String shootOut) 
-	{
-		this.shootOut = shootOut;
-	}
 }

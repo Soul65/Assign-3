@@ -1,78 +1,103 @@
-/* Name: Matt Allen & Robbie Syed
- * PROG3060
- * 07/20/16
- * Description: The Roster bean
- * */
 
+
+import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
-@Entity @Table(name = "ROSTER", schema = "GPAULLEY")
-public class Roster 
-{
-	@Id 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int    rosterID;
-    private String position;
-    @ManyToOne
-    @JoinColumn(name="team")
-    private Team   team;
-    @ManyToOne
-    @JoinColumn(name="player")
-    private Player player;
-    private int    jersey;
-    
-    public Roster() 
-	{
-	}    
-    
-    public int getRosterID() 
-	{
-	    return rosterID;
+
+/**
+ * The persistent class for the ROSTER database table.
+ * 
+ */
+@Entity
+@NamedQuery(name="Roster.findAll", query="SELECT r FROM Roster r")
+public class Roster implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@Id
+	private int rosterid;
+
+	private int jersey;
+
+	private String position;
+
+	//bi-directional many-to-one association to Playerstat
+	@OneToMany(mappedBy="rosterBean")
+	private List<Playerstat> playerstats;
+
+	//bi-directional many-to-one association to Player
+	@ManyToOne
+	@JoinColumn(name="PLAYER")
+	private Player playerBean;
+
+	//bi-directional many-to-one association to Team
+	@ManyToOne
+	@JoinColumn(name="TEAM")
+	private Team teamBean;
+
+	public Roster() {
 	}
-    
-    public void setRosterID( int rosterID )
-	{
-	    this.rosterID = rosterID;
+
+	public int getRosterid() {
+		return this.rosterid;
 	}
-    
-    public String getPosition()
-	{
-	    return position;
+
+	public void setRosterid(int rosterid) {
+		this.rosterid = rosterid;
 	}
-    
-    public void setPosition( String newPosition )
-	{
-	    this.position = newPosition;
+
+	public int getJersey() {
+		return this.jersey;
 	}
-    
-    public int getJersey()
-	{
-	    return jersey;
+
+	public void setJersey(int jersey) {
+		this.jersey = jersey;
 	}
-    
-    public void setJersey( int newJersey )
-	{
-	    this.jersey = newJersey;
+
+	public String getPosition() {
+		return this.position;
 	}
-        
-    public Team getTeam()
-	{
-	    return team;
+
+	public void setPosition(String position) {
+		this.position = position;
 	}
-    
-    public void setTeam( Team newTeam )
-	{
-	    this.team = newTeam;
+
+	public List<Playerstat> getPlayerstats() {
+		return this.playerstats;
 	}
-    
-    public Player getPlayer()
-	{
-	    return player;
+
+	public void setPlayerstats(List<Playerstat> playerstats) {
+		this.playerstats = playerstats;
 	}
-    
-    public void setPlayer( Player newPlayer )
-	{
-	    this.player = newPlayer;
+
+	public Playerstat addPlayerstat(Playerstat playerstat) {
+		getPlayerstats().add(playerstat);
+		playerstat.setRosterBean(this);
+
+		return playerstat;
 	}
-    
+
+	public Playerstat removePlayerstat(Playerstat playerstat) {
+		getPlayerstats().remove(playerstat);
+		playerstat.setRosterBean(null);
+
+		return playerstat;
+	}
+
+	public Player getPlayerBean() {
+		return this.playerBean;
+	}
+
+	public void setPlayerBean(Player playerBean) {
+		this.playerBean = playerBean;
+	}
+
+	public Team getTeamBean() {
+		return this.teamBean;
+	}
+
+	public void setTeamBean(Team teamBean) {
+		this.teamBean = teamBean;
+	}
+
 }

@@ -8,7 +8,7 @@
 		<title>Player Info</title>
 	</head>
 	<body>
-	<h2>Player info for ${roster.getPlayer().getFullName()}</h2>
+	<h2>Player info for ${roster.getPlayerBean().getFullName()}</h2>
 		<table border="1">
 			<tr>
 				<th>Jersey Number</th>
@@ -24,8 +24,8 @@
 			</tr>
 			<tr>
 				<td>${roster.getJersey()}</td>
-				<td>${roster.getPlayer().getLastName()}</td>
-				<td>${roster.getPlayer().getFirstName()}</td>
+				<td>${roster.getPlayer().getLastname()}</td>
+				<td>${roster.getPlayer().getFirstname()}</td>
 				<td>${roster.getPosition()}</td>
 				<td>${roster.getPlayer().getHeight()}</td>
 				<td>${roster.getPlayer().getWeight()}</td>

@@ -6,8 +6,10 @@
  * */
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -25,6 +27,12 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/DisplayTeamInfo")
 public class DisplayTeamInfo extends HttpServlet 
 {
+	@EJB
+    GameEJB gameEJB;
+	
+	@EJB
+    ScheduleEJB scheduleEJB;
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -46,13 +54,27 @@ public class DisplayTeamInfo extends HttpServlet
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("NHLService");
 		EntityManager em = emf.createEntityManager();
 		
+		
 		try
 		{
-		    List<Roster> roster = em.createQuery("FROM Roster WHERE team.id = :teamID ORDER BY jersey", Roster.class).setParameter("teamID", teamID).getResultList();									
+		    List<Roster> roster = em.createQuery("FROM Roster WHERE team.id = :teamID ORDER BY jersey", Roster.class).setParameter("teamID", teamID).getResultList();
 		    List<Game> games = em.createQuery("FROM Game WHERE (home.id = :team OR visitor.id = :team) AND homeScore != NULL", Game.class).setParameter("team", teamID).getResultList();
 		    List<Game> scheduledGames = em.createQuery("FROM Game WHERE (home.id = :team OR visitor.id = :team) AND homeScore = NULL", Game.class).setParameter("team", teamID).getResultList();
-		    httpSession.setAttribute("Roster", roster);		    
-			httpSession.setAttribute("Games", games);
+		    Team team = em.createQuery("FROM Team WHERE teamID = :teamID", Team.class).setParameter("teamID", teamID).getSingleResult();
+		    List<GameViewModel> gameVM = new ArrayList<GameViewModel>();
+		    
+		    for(Game game : games)
+		    {
+		    	GameViewModel currVM = new GameViewModel();
+		    	currVM.setGame(game);		    	
+		    	currVM.setScore(gameEJB.gameStats(team, game));
+		    	
+		    	gameVM.add(currVM);		    	
+		    }
+
+		    httpSession.setAttribute("NextGame", scheduleEJB.nextGame(team));
+		    httpSession.setAttribute("Roster", roster);
+			httpSession.setAttribute("Games", gameVM);
 			httpSession.setAttribute("ScheduledGames", scheduledGames);
 			httpSession.setAttribute("headCoach", request.getParameter("headCoach"));
 			httpSession.setAttribute("asstCoach", request.getParameter("asstCoach"));

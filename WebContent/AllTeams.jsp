@@ -17,13 +17,13 @@
 				<tr>
 					<td>
 						<c:url value="./DisplayTeamInfo" var="teamUrl">
-							<c:param name="teamID" value="${team.getTeamID()}"/>
-							<c:param name="headCoach" value="${team.getHeadCoach().getFullName()}"/>
-							<c:param name="asstCoach" value="${team.getAsstCoach().getFullName()}"/>
-							<c:param name="manager" value="${team.getManager().getFullName()}"/>
-							<c:param name="trainer" value="${team.getTrainer().getFullName()}"/>							
+							<c:param name="teamID" value="${team.getTeamid()}"/>
+							<c:param name="headCoach" value="${team.getStaff1().getFullName()}"/>
+							<c:param name="asstCoach" value="${team.getStaff2().getFullName()}"/>
+							<c:param name="manager" value="${team.getStaff3().getFullName()}"/>
+							<c:param name="trainer" value="${team.getStaff4().getFullName()}"/>							
 						</c:url>
-						<a href="<c:url value="${teamUrl}"/>">${team.getTeamName()}</a>
+						<a href="<c:url value="${teamUrl}"/>">${team.getTeamname()}</a>
 					</td>
 				</tr>
 			</c:forEach>
@@ -36,8 +36,8 @@
 			</tr>
 			<c:forEach items="${Arenas}" var="arena">
 				<tr>
-					<td><c:out value="${arena.getArenaName()}"></c:out></td>
-					<td><c:out value="${arena.getStreetAddress()}"></c:out></td>
+					<td><c:out value="${arena.getArenaname()}"></c:out></td>
+					<td><c:out value="${arena.getStreetaddress()}"></c:out></td>
 				</tr>
 			</c:forEach>
 		</table>	
